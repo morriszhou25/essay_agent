@@ -85,9 +85,7 @@ run look green.
 Python >= 3.11 is required.
 
 ```bash
-git clone https://github.com/OWNER/REPO.git
-cd essay-agent
-python -m pip install -e ".[dev]"        # editable install, includes pytest and ruff
+git clone https://github.com/morriszhou25/essay_agent.git
 ```
 
 Optional provider extras:
@@ -100,7 +98,7 @@ python -m pip install -e ".[anthropic]"   # Anthropic
 ## Quickstart
 
 ```bash
-cp .env.example .env             # put your ESSAY_AGENT_LLM__API_KEY here
+cp .env.example .env             # then put your ESSAY_AGENT_LLM__API_KEY and choose the provider here
 essay config check               # validate configuration and paths; calls no model
 essay agent                      # start the interactive session (the main entry point)
 ```
