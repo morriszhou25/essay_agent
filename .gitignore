@@ -1,0 +1,72 @@
+# ---------------------------------------------------------------------------
+# essay-agent .gitignore
+# Generated run data and secrets must never be committed.
+# ---------------------------------------------------------------------------
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+wheels/
+*.whl
+
+# --- virtualenv / tooling ---
+.venv/
+venv/
+env/
+.pytest_cache/
+.pytest_tmp/
+.pytest_out.txt
+pytest-cache-files-*/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.nox/
+.tmp_wheel/
+pip-wheel-metadata/
+
+# --- editor / OS ---
+.idea/
+.vscode/
+*.swp
+*.bak
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+.ipynb_checkpoints/
+
+# --- logs ---
+*.log
+*.out
+
+# --- secrets ---
+.env
+.env.*
+!.env.example
+# The repo's own local config template (`essay config init`); user projects may
+# still commit their own essay-agent.yaml - only the one in this checkout is ignored.
+/essay-agent.yaml
+
+# --- agent runtime artifacts (never commit run data) ---
+.essay_agent/
+.essay_agent_cache/
+
+# --- agent outputs: keep the folders, ignore the generated payload ---
+result/*
+!result/.gitkeep
+repro/*
+!repro/.gitkeep
+lesson/*
+!lesson/.gitkeep

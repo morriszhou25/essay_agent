@@ -1,0 +1,67 @@
+# Default configuration for essay-agent.
+# Precedence: built-in defaults  <  this file  <  environment variables / .env
+# Environment variables use the ESSAY_AGENT_ prefix and a double-underscore
+# separator for nested keys, e.g. ESSAY_AGENT_LLM__MODEL=gpt-4o.
+
+llm:
+  provider: openai          # openai | openai_compatible | deepseek | anthropic
+  model: gpt-4o-mini
+  verifier_model: null      # falls back to `model` with a colder temperature
+  api_key: null             # prefer the ESSAY_AGENT_LLM__API_KEY env var
+  base_url: null
+  temperature: 0.2
+  verifier_temperature: 0.0
+  max_tokens: 8192
+  # Output-token ceiling for the stage-4 code call only. The generated repro.py is the
+  # longest reply the agent asks for, so raise this (e.g. 32768) when the provider allows
+  # more output than `max_tokens`; null keeps the shared limit.
+  code_max_tokens: null
+  timeout: 120.0
+  max_retries: 3
+
+# Explicit HTTP proxy for every client this agent builds (paper search, dataset probe,
+# the model API). Leave null unless detection gets it wrong or you know better.
+http_proxy: null
+
+search:
+  max_results: 8
+  timeout: 30.0
+  backends: [arxiv, semanticscholar, openalex]
+  # Below this confidence the agent asks the human to disambiguate.
+  user_choice_confidence: 0.6
+  contact_email: null
+  # Refuse to "reproduce" a paper from an abstract alone without asking.
+  require_full_text: true
+  # Total budget for the stage-3 reachability probe. Raise it on a slow network.
+  connectivity_budget_seconds: 20.0
+  # Where dataset downloads fall back to when the primary host is unreachable.
+  # Set it to "" to disable the fallback, or to your own mirror.
+  dataset_mirror_url: https://hf-mirror.com
+
+runtime:
+  time_budget_seconds: 600.0     # 10 minutes
+  preflight_timeout: 300.0
+  hard_timeout_factor: 1.5       # full run may exceed the budget by this factor
+  max_plan_rounds: 3
+  max_execute_rounds: 3
+  max_adjust_rounds: 3
+  auto_adjust: true
+  allow_synthetic_data: false
+  device: auto                   # auto | cpu | cuda
+  python_executable: null        # defaults to sys.executable
+  progress_refresh_per_second: 8.0
+
+memory:
+  compress_threshold_chars: 4000
+  context_window_chars: 2000
+
+paths:
+  home: .
+  workspace_root: .essay_agent/runs
+  cache_dir: .essay_agent/cache
+  history_file: .essay_agent/history
+  result_dir: result
+  code_dir: repro
+  lesson_dir: lesson
+
+verbose: false

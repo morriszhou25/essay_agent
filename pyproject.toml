@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "essay-agent"
+version = "0.1.0"
+description = "A lightweight, human-in-the-loop agent that reproduces papers end to end."
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = ["llm", "agent", "langgraph", "paper-reproduction", "research"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "click>=8.1",
+  "httpx>=0.27",
+  "langchain>=1.0",
+  "langchain-core>=1.0",
+  "langchain-openai>=1.0",
+  "langgraph>=1.0",
+  "prompt_toolkit>=3.0",
+  "pydantic>=2.7",
+  "pydantic-settings>=2.4",
+  "pypdf>=4.0",
+  "python-dotenv>=1.0",
+  "PyYAML>=6.0",
+  "requests>=2.31",
+  "rich>=13.7",
+]
+
+[project.optional-dependencies]
+deepseek = ["langchain-deepseek>=1.0"]
+anthropic = ["langchain-anthropic>=1.0"]
+dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff>=0.6"]
+
+[project.scripts]
+essay = "essay_agent.cli:main"
+essay-agent = "essay_agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+# The default configuration lives inside the package so an installed wheel has it;
+# `tests/test_packaging.py` guards this, and CI builds a wheel to prove it.
+essay_agent = ["defaults/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q --strict-markers"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4", "RUF"]
+ignore = ["E501", "B008", "SIM108"]
+
+[tool.coverage.run]
+source = ["essay_agent"]
+branch = true
