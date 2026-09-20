@@ -46,13 +46,11 @@ it can, judges the cards against the measured numbers, and publishes the conclus
 deviations and limitations to `result/<slug>-<id>/report.md`.
 
 It does not chase the paper's full scale, and it does not decide for you: what it can test, it
-tests; what it cannot, it says so explicitly. It never fabricates results or invents data to make a
+tests; what it cannot, it says explicitly. It never fabricates results or invents data to make a
 run look green.
 
 ## Highlights
 
-- **Retrieval is tool-forced.** The paper is searched, downloaded and checked by a tool; the model
-  is never allowed to answer from memory.
 - **Every section counts.** Cards are allocated per section, and a coverage ledger in
   `cards/coverage.json` accounts for each eligible section - no more "the quota ran out, the rest of
   the paper was dropped".
@@ -68,8 +66,6 @@ run look green.
   every child process, and the run record states what was injected and why (see below).
 - **Failures are visible.** The verifier receives both streams, labelled `[stdout]` / `[stderr]`,
   and a failed run prints the child's last error line on the console.
-- **Ctrl+C leaves nothing behind.** Everything is written inside a staging directory that is deleted
-  on interrupt; nothing is published.
 - **Fully offline test suite.** 365 tests need neither network nor an API key, and the whole
   pipeline (including all three loops) can be driven end to end with fakes.
 
